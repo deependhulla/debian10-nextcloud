@@ -5,7 +5,10 @@ curl -fsSL https://nginx.org/keys/nginx_signing.key | apt-key add -
 apt update
 apt upgrade -y
 apt install nginx -y
-systemctl enable nginx.service
+systemctl stop nginx.service
+## as default apache2 is used at times
+systemctl disable nginx.service
+apt-get install apache2 libapache2-mod-php7.4
 ##########
 echo "deb [arch=amd64] https://packages.sury.org/php/ $(lsb_release -cs) main" > /etc/apt/sources.list.d/php7-4.list
 wget -q https://packages.sury.org/php/apt.gpg -O- | apt-key add -
@@ -14,7 +17,7 @@ apt install -y php7.4-fpm php7.4-gd php7.4-mysql php7.4-curl php7.4-xml php7.4-z
 ## install redis server
 apt install redis-server php-redis -y
 
-echo "deb [arch=amd64] http://mirror2.hs-esslingen.de/mariadb/repo/10.4/debian $(lsb_release -cs) main" > /etc/apt/sources.list.d/mariadb.list
+echo "deb [arch=amd64] http://mirror2.hs-esslingen.de/mariadb/repo/10.5/debian $(lsb_release -cs) main" > /etc/apt/sources.list.d/mariadb.list
 apt-key adv --recv-keys --keyserver hkps://keyserver.ubuntu.com:443 0xF1656F24C74CD1D8
 
 apt update 
@@ -24,7 +27,7 @@ nginx -v
 echo "make sure nginx is latest version 1.19.x"
 echo "--------------------------------------------------------";
 mysql --version
-echo "make sure mariadb is 10.4x"
+echo "make sure mariadb is 10.5x"
 echo "--------------------------------------------------------";
 php -v | grep cli
 echo "make sure php is 7.4.x"
